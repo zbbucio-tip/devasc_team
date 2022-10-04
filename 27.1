@@ -1,0 +1,30 @@
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+temp=[
+    {
+        "temp_id" : "1",
+        "date": ["03/10/22"],
+        "temperature": ["36.5"]
+    },
+
+]
+
+@app.route('/temp', methods=['GET'])
+def displaytemp():
+    return jsonify(temp)
+
+@app.route('/temp', methods=['POST'])
+def addtemp():
+    tem = request.get_json()
+    temp.append(tem)
+    return {'id': len(temp)},200
+
+@app.route('/temp/<int:index>', methods=['DELETE'])
+def deletetemp(index):
+   temp.pop(index)
+   return 'Temperature record was successfully deleted', 200
+
+if __name__ == '__main__':
+
+    app.run()
